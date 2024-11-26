@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useChannelActions } from "../hooks/useChannelActions";
-import { Link } from "react-router-dom";
 
 // CreateChannelModal component
 const CreateChannelModal = ({ showModal, toggleModal }) => {
@@ -23,9 +22,9 @@ const CreateChannelModal = ({ showModal, toggleModal }) => {
     if (createdChannel) {
       setChannelDetails(createdChannel); // Save the response data (includes channelId)
     }
+    // Reload the window
+    window.location.reload();
   };
-
-  
 
   return (
     showModal && (
@@ -41,7 +40,6 @@ const CreateChannelModal = ({ showModal, toggleModal }) => {
           <p className="mb-4">
             To create a new channel, please enter your details below.
           </p>
-          {console.log("channel id ", channelDetails)}
           {channelDetails && console.log("Channel ID:", channelDetails._id)}
           {error && <p className="text-red-500">{error}</p>}{" "}
           {/* Display errors */}
@@ -78,27 +76,13 @@ const CreateChannelModal = ({ showModal, toggleModal }) => {
             >
               Cancel
             </button>
-            {channelDetails ? (
-              <Link
-                to={`/channel/${channelDetails._id}`}
-                state={{
-                  channelName: channelDetails.channelName,
-                  description: channelDetails.description,
-                  channelBanner: channelDetails.channelBanner,
-                }}
-              >
-                <button className="bg-red-600 text-white px-4 py-2 rounded">
-                  Go to Channel
-                </button>
-              </Link>
-            ) : (
-              <button
-                className="bg-red-600 text-white px-4 py-2 rounded"
-                onClick={handleCreateChannel} // Create channel on click
-              >
-                Create
-              </button>
-            )}
+
+            <button
+              className="bg-red-600 text-white px-4 py-2 rounded"
+              onClick={handleCreateChannel} // Create channel on click
+            >
+              Create
+            </button>
           </div>
         </div>
       </div>

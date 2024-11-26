@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { likeVideo, dislikeVideo } from "../Api/videoApi";
+import Swal from "sweetalert2";
 
 const useVideoActions = () => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,13 @@ const useVideoActions = () => {
     setLoading(true);
     try {
       const response = await likeVideo(videoId, userId, token, channelId); // Pass channelId here
-      alert(response.message || "Video liked successfully.");
+      Swal.fire({
+        icon: "success",
+        title: "Video Liked Successfully!",
+        text: response.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     } catch (err) {
       setError(err.response?.data?.message || "Failed to like the video.");
     } finally {
@@ -42,7 +49,13 @@ const useVideoActions = () => {
     setLoading(true);
     try {
       const response = await dislikeVideo(videoId, userId, token, channelId); // Pass channelId here
-      alert(response.message || "Video disliked successfully.");
+      Swal.fire({
+        icon: "success",
+        title: "Video Disliked Successfully!",
+        text: response.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     } catch (err) {
       setError(err.response?.data?.message || "Failed to dislike the video.");
     } finally {

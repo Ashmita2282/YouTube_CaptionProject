@@ -1,36 +1,3 @@
-// import { useEffect, useState } from "react";
-
-// export const useFetchVideos = () => {
-//   const [videos, setVideos] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchVideos = async () => {
-//       try {
-//         const response = await fetch("http://localhost:4000/api/video");
-//         if (!response.ok) {
-//           if (response.status === 404) {
-//             // Handle 404 silently
-//             return null; // You can return or handle it gracefully
-//           }
-//           throw new Error(`Error: ${response.status}`);
-//         }
-//         const data = await response.json();
-//         setVideos(data.data); // Assuming the videos are in `data.data` as per your structure
-//       } catch (error) {
-//         setError(error.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchVideos();
-//   }, []);
-
-//   return { videos, loading, error };
-// };
-
 import { useEffect, useState } from "react";
 
 export const useFetchVideos = () => {

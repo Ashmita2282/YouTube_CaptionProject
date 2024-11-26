@@ -32,7 +32,7 @@ const Home = () => {
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className={`${isAuthPage ? "" : "flex bg-gray-100"}`}>
+    <div className={` font-serif ${isAuthPage ? "" : "flex bg-gray-100"}`}>
       {/* Sidebar */}
 
       {/* Conditionally Render FilterButtons */}
@@ -45,7 +45,9 @@ const Home = () => {
 
       {/* Conditionally Render FilterButtons for Home Page Only */}
       {isHomePage && !isAuthPage && (
-        <div className={`${isSidebarOpen ? "lg:ml-40" : "lg:ml-14"}`}>
+        <div
+          className={`font-serif ${isSidebarOpen ? "lg:ml-40" : "lg:ml-14"}`}
+        >
           {" "}
           <FilterButtons onCategorySelect={handleCategorySelect} />{" "}
         </div>
@@ -53,7 +55,7 @@ const Home = () => {
 
       {/* Render Child Routes */}
       <main
-        className={`${
+        className={`font-serif ${
           isAuthPage
             ? "" // Special class for login/register pages
             : `main-content  ${

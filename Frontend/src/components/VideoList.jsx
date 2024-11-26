@@ -9,8 +9,16 @@ const VideoList = ({ isVerticalLayout }) => {
 
   const { videos, loading, error } = useFetchVideos();
 
-  if (loading) return <p>Loading...</p>;
-  if (loading) return <Loading />; // Show the loading component if data is loading
+  if (loading) return <Loading />; // Show loading spinner while fetching videos
+
+  if (error) {
+    // Handle errors gracefully
+    return (
+      <div className="mt-10 flex justify-center items-center text-red-500 text-lg">
+        <p>Something went wrong! Please try again later.</p>
+      </div>
+    );
+  }
 
   const filteredVideos = videos
     .filter(
@@ -20,6 +28,15 @@ const VideoList = ({ isVerticalLayout }) => {
     .filter((video) =>
       video.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+  if (filteredVideos.length === 0) {
+    // Handle no videos found
+    return (
+      <div className="mt-10 flex justify-center items-center text-gray-500 text-lg">
+        <p>No videos found. Try a different search or category.</p>
+      </div>
+    );
+  }
 
   return (
     <div

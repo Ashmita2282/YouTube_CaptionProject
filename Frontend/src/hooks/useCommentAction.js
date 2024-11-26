@@ -14,8 +14,6 @@ const useCommentAction = () => {
 
   const { user, token } = useSelector((state) => state.auth);
   const userId = user?.data?._id; // Get userId here
-  console.log("User ID:", userId);
-  console.log("Token:", token);
 
   const handleAddComment = async (videoId, commentText) => {
     if (!token || !userId) {

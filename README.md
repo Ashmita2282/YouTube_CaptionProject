@@ -58,4 +58,4 @@ Data Relationships:
 Challenge: Managing relationships between users, channels, and videos.
 Solution: Use a hybrid approach with embedded documents and references for scalability. 6. All the functionality works but reflect after the hard reloading
 
-### Github Link : https://github.com/Ashmita2282/Youtube_clone
+### Github Link : https://github.com/Ashmita2282/YouTube_CaptionProject

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import useAddVideo from "../hooks/useAddVideo";
+import { useNavigate } from "react-router-dom";
 
-const UploadPopup = ({ onClose }) => {
+const UploadPopup = ({ onClose, channelData }) => {
   const { addVideo, loading, error } = useAddVideo();
 
+  const navigate = useNavigate();
   const [videoDetails, setVideoDetails] = useState({
     title: "",
     description: "",
@@ -26,6 +28,12 @@ const UploadPopup = ({ onClose }) => {
       alert("Video uploaded successfully!");
       onClose(); // Close the popup after successful upload
     }
+  };
+
+  const handleUpload = () => {
+    // Trigger any necessary upload function here
+    window.location.reload(); // Reload the window
+    navigate(`/channel/${channelData}`); // Navigate to the specific channel page
   };
 
   return (
@@ -110,6 +118,7 @@ const UploadPopup = ({ onClose }) => {
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded"
               disabled={loading}
+              onClick={handleUpload}
             >
               {loading ? "Uploading..." : "Upload"}
             </button>

@@ -6,7 +6,7 @@ import { logout, getUserData } from "../redux/slices/authSlice";
 import logo from "../assets/logo.png";
 import CreateChannelModal from "../components/CreateChannelModal";
 import create from "../assets/create.png";
-import UploadPopup from "./UploadPopup"
+import UploadPopup from "./UploadPopup";
 
 const Header = ({ onSearch, toggleSidebar, isOpen }) => {
   const dispatch = useDispatch();
@@ -124,6 +124,7 @@ const Header = ({ onSearch, toggleSidebar, isOpen }) => {
             <UploadPopup
               onClose={() => setShowPopup(false)}
               onSubmit={handlePopupSubmit}
+              channelData={channelData.channelId}
             />
           )}
           <div
@@ -154,7 +155,7 @@ const Header = ({ onSearch, toggleSidebar, isOpen }) => {
                 </li>
                 {hasChannel ? (
                   <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-green-600 underline"
                     onClick={() =>
                       navigate(`/channel/${channelData.channelId}`, {
                         state: channelData,

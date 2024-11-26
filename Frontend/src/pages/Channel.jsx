@@ -171,7 +171,7 @@ const Channel = () => {
                 <div className="flex z-0 justify-between items-center absolute  bottom-32 left-4 ml-40  ">
                   <button
                     onClick={() => handleDeleteVideo(video._id)}
-                    className="px-8 pr-0 rounded text-red-600  transition-all"
+                    className="p-1 ml-9 bg-white rounded text-red-600 animate-bounce transition-all"
                   >
                     {deleteLoading ? (
                       "Deleting..."
@@ -181,7 +181,7 @@ const Channel = () => {
                   </button>
                   <button
                     onClick={() => handleEditClick(video)}
-                    className="py-1 pr-0 text-green-600 pl-2 rounded  transition-all"
+                    className="p-1 ml-2 bg-white text-green-600 pl-2 rounded animate-bounce border  transition-all"
                   >
                     <i className="fa-solid fa-pen-to-square"></i>
                   </button>
@@ -221,7 +221,7 @@ const Channel = () => {
                   <UploadPopup
                     onClose={() => setShowPopup(false)}
                     onSubmit={handlePopupSubmit}
-                    className="z-1000"
+                    className="z-50"
                   />
                 )}
               </div>

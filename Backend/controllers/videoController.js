@@ -228,7 +228,6 @@ export const addComment = async (req, res) => {
         await channel.save();
       }
     }
-    console.log("newComment", newComment);
 
     res.status(200).json({
       success: true,
@@ -247,7 +246,6 @@ export const getComments = async (req, res) => {
     // Get the videoId from the URL parameters (assumes the route is /videos/:id/comments)
     const videoId = req.params.id;
 
-    console.log;
     // Validate if the videoId is a valid ObjectId using Mongoose's Types.ObjectId method
     if (!mongoose.Types.ObjectId.isValid(videoId)) {
       return res.status(400).json({ message: "Invalid video ID" });
@@ -262,13 +260,11 @@ export const getComments = async (req, res) => {
     if (!video) {
       return res.status(404).json({ message: "Video not found" });
     }
-    // console.log("video", video);
     // Return the comments with user details
     const commentsWithUser = video.comments.map((comment) => ({
       commentText: comment.commentText, // Extract the comment text
       username: comment.userId, // Extract the username of the user who posted the comment
     }));
-    console.log("commentsWithUser", commentsWithUser);
 
     res.status(200).json(commentsWithUser); // Send the comments as response
   } catch (error) {
@@ -281,16 +277,12 @@ export const getComments = async (req, res) => {
 export const deleteVideo = async (req, res) => {
   try {
     const videoId = req.params.id; // Get video ID from URL params
-    console.log("videoId", videoId);
 
     // getting the user details from header
     const userId = req.user._id;
-    console.log("userId", userId);
 
     // Find the video to delete
     const video = await Video.findById(videoId);
-    console.log("video", video);
-    console.log("video", video);
     if (!video) {
       return res.status(404).json({
         success: false,
@@ -340,11 +332,9 @@ export const editVideo = async (req, res) => {
 
     // getting the user details from header
     const userId = req.user._id;
-    console.log("userId", userId);
 
     // Find the video to edit
     const video = await Video.findById(videoId);
-    console.log("video", video);
 
     if (!video) {
       return res.status(404).json({

@@ -334,7 +334,7 @@ const Sidebar = ({ isOpen }) => {
             {showDropdown && (
               <div
                 ref={dropdownRef}
-                className="absolute right-0 mb-2 w-64 bg-white border rounded-md shadow-lg z-50"
+                className="absolute right-0 mb-52 w-64 bg-white border rounded-md shadow-lg z-50"
               >
                 <div className="p-4 border-b">
                   <p className="font-semibold">{user?.data?.name || "User"}</p>
@@ -370,17 +370,18 @@ const Sidebar = ({ isOpen }) => {
                     showModal={showModal}
                     toggleModal={toggleModal}
                   />
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("#")}
-                  >
-                    Settings
-                  </li>
+
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleLogout}
                   >
                     Sign out
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => setShowDropdown(false)}
+                  >
+                    Cancel
                   </li>
                 </ul>
               </div>

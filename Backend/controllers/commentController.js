@@ -64,7 +64,6 @@ export const addComment = async (req, res) => {
 export const deleteComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    console.log("commentId:", commentId);
     const userId = req.user._id; // Extract userId from the authMiddleware (assumes it sets `req.user`)
 
     // Find the comment to verify ownership
@@ -98,7 +97,6 @@ export const deleteComment = async (req, res) => {
 
     // --- Updating the User model related to this deleted comment ---
     const user = await User.findById(comment.userId);
-    console.log("user:", user);
 
     if (user) {
       // Remove the commentId from the user's comments array
@@ -136,9 +134,7 @@ export const deleteComment = async (req, res) => {
 export const editComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    console.log("commentId:", commentId);
     const { commentText } = req.body;
-    console.log("commentText:", commentText);
 
     const userId = req.user._id; // Extract userId from the authMiddleware (assumes it sets `req.user`)
 
@@ -173,7 +169,6 @@ export const editComment = async (req, res) => {
 
     // --- Updating the User model related to this comment ---
     const user = await User.findById(comment.userId);
-    console.log("user:", user);
     if (user) {
       const commentIndex = user.comments.indexOf(commentId);
       if (commentIndex === -1) {
@@ -195,7 +190,6 @@ export const editComment = async (req, res) => {
 
     // --- Updating the Video model related to this comment ---
     const video = await Video.findById(comment.videoId);
-    console.log("video:", video);
     if (video) {
       const commentIndex = video.comments.indexOf(commentId);
       if (commentIndex === -1) {
