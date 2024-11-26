@@ -32,7 +32,6 @@ export const addComment = async (videoId, commentText, token, userId) => {
       }
     );
 
-    console.log("Comment added comment data:", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -81,7 +80,6 @@ export const editCommentApi = async (
         },
       }
     );
-    console.log("Comment edited data:", response.data);
     // If successful, return the response data
     if (response.data.success) {
       return response.data;
@@ -114,7 +112,6 @@ export const deleteCommentApi = async (commentId, token, userId) => {
         },
       }
     );
-    console.log("Comment Deleted :", response.data);
     // If successful, return the response data
     if (response.data.success) {
       return response.data;

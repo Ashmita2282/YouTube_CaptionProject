@@ -19,7 +19,6 @@ const useFetchEditVideo = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("edit data",response.data);
 
       return response.data.video; // Return the updated video object
     } catch (err) {

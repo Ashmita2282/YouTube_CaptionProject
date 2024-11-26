@@ -131,7 +131,6 @@ export const useFetchVideosByChannelId = (channelId) => {
         );
 
         const data = await response.json();
-        console.log("fetching the channe video data", data);
         if (!response.ok) {
           if (response.status === 404) {
             // Handle 404 silently

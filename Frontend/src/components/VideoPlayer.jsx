@@ -283,3 +283,264 @@ const VideoPlayer = () => {
 };
 
 export default VideoPlayer;
+
+// import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
+// import { useFetchVideos } from "../hooks/useFetchVideos";
+// import VideoList from "./VideoList";
+// import useVideoActions from "../hooks/useVideoActions";
+// import useCommentAction from "../hooks/useCommentAction";
+
+// const VideoPlayer = () => {
+//   const { id } = useParams();
+//   const { handleLike, handleDislike, loading, error } = useVideoActions();
+//   const {
+//     handleAddComment,
+//     handleFetchComment,
+//     handleEditComment,
+//     handleDeleteComment, // Import delete functionality
+//     loading: commentLoading,
+//     error: commentError,
+//   } = useCommentAction();
+//   const { comments, fetchLoading, fetchError } = handleFetchComment(id);
+
+//   const [hasFetchedData, setHasFetchedData] = useState(false);
+//   const [actionError, setActionError] = useState("");
+//   const [commentText, setCommentText] = useState("");
+
+//   // State for editing comments
+//   const [editingCommentId, setEditingCommentId] = useState(null);
+//   const [editCommentText, setEditCommentText] = useState("");
+
+//   useEffect(() => {
+//     if (fetchError) console.error(fetchError);
+//   }, [fetchError]);
+
+//   const { videos } = useFetchVideos();
+//   const selectedVideo = videos.find((video) => video._id === id);
+
+//   const getEmbedUrl = (url) => {
+//     const videoId = url.split("v=")[1]?.split("&")[0];
+//     return `https://www.youtube.com/embed/${videoId}`;
+//   };
+
+//   useEffect(() => {
+//     if (selectedVideo) {
+//       setHasFetchedData(true);
+//     }
+//   }, [selectedVideo]);
+
+//   const handleError = (error) => {
+//     setActionError(
+//       error.message || "An error occurred while processing your request."
+//     );
+//   };
+
+//   const handleCommentSubmit = () => {
+//     if (!commentText.trim()) {
+//       alert("Comment text cannot be empty.");
+//       return;
+//     }
+//     handleAddComment(selectedVideo._id, commentText);
+//     setCommentText("");
+//   };
+
+//   const startEditing = (commentId, currentText) => {
+//     setEditingCommentId(commentId);
+//     setEditCommentText(currentText);
+//   };
+
+//   const saveEditComment = async () => {
+//     if (!editCommentText.trim()) {
+//       alert("Comment text cannot be empty.");
+//       return;
+//     }
+//     try {
+//       await handleEditComment(editingCommentId, editCommentText);
+//       setEditingCommentId(null);
+//       setEditCommentText("");
+//     } catch (err) {
+//       console.error("Error while saving comment edit:", err);
+//     }
+//   };
+
+//   return (
+//     <div className="flex flex-col lg:flex-row lg:mt-2 ">
+//       {/* Left Section - Video Player */}
+//       <div className="lg:w-2/3 w-full lg:mt-26 p-5 bg-white border-b lg:border-r lg:border-gray-300">
+//         {loading && <p className="text-red-500">Loading video...</p>}
+//         {error && <p className="text-red-500">Error: {error}</p>}
+//         {!loading && !error && selectedVideo && (
+//           <div>
+//             <iframe
+//               width="100%"
+//               height="400"
+//               src={getEmbedUrl(selectedVideo.videoUrl)}
+//               frameBorder="0"
+//               allow="autoplay; encrypted-media; picture-in-picture"
+//               allowFullScreen
+//               className="rounded-lg shadow-md"
+//               onError={() =>
+//                 console.error("Embedding restricted for this video.")
+//               }
+//             ></iframe>
+//             <p className="mt-2 text-center text-gray-600">
+//               If the video doesn't play,{" "}
+//               <a
+//                 href={selectedVideo.videoUrl}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="text-red-500 underline"
+//               >
+//                 (watch it on YouTube)
+//               </a>
+//               .
+//             </p>
+//           </div>
+//         )}
+
+//         {!loading && !error && selectedVideo && (
+//           <div className="mt-5">
+//             <h2 className="text-2xl font-semibold text-gray-900">
+//               {selectedVideo.title}
+//             </h2>
+//             <p className="text-gray-600">{selectedVideo.description}</p>
+//             <p className="text-red-500">
+//               {selectedVideo.channelId.channelName}
+//             </p>
+
+//             <div className="flex mt-4 space-x-4">
+//               <button
+//                 onClick={async () => {
+//                   try {
+//                     await handleLike(selectedVideo._id);
+//                   } catch (err) {
+//                     handleError(err);
+//                   }
+//                 }}
+//                 className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+//               >
+//                 👍 Like
+//               </button>
+//               <span className="text-gray-700">
+//                 {selectedVideo.likes?.length || 0}
+//               </span>
+//               <button
+//                 onClick={async () => {
+//                   try {
+//                     await handleDislike(selectedVideo._id);
+//                   } catch (err) {
+//                     handleError(err);
+//                   }
+//                 }}
+//                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400"
+//               >
+//                 👎 Dislike
+//               </button>
+//               <span className="text-gray-700">
+//                 {selectedVideo.dislikes?.length || 0}
+//               </span>
+//             </div>
+
+//             {actionError && <p className="mt-4 text-red-500">{actionError}</p>}
+//           </div>
+//         )}
+
+//         {!loading && !error && selectedVideo && (
+//           <div className="mt-5">
+//             <h3 className="text-lg font-semibold text-gray-900">Comments</h3>
+//             <textarea
+//               value={commentText}
+//               onChange={(e) => setCommentText(e.target.value)}
+//               placeholder="Add a comment..."
+//               className="mt-2 w-full p-2 border rounded-lg focus:outline-red-500"
+//             />
+//             <button
+//               onClick={handleCommentSubmit}
+//               className="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+//             >
+//               Post Comment
+//             </button>
+//             {commentError && (
+//               <p className="mt-2 text-red-500">{commentError}</p>
+//             )}
+//             <div className="mt-4">
+//               {comments && comments.length > 0 ? (
+//                 comments.map((comment) => (
+//                   <div key={comment._id} className="comment">
+//                     <p>
+//                       <strong>{comment.userId.userName}</strong>:
+//                     </p>
+//                     {editingCommentId === comment._id ? (
+//                       <div>
+//                         <textarea
+//                           value={editCommentText}
+//                           onChange={(e) => setEditCommentText(e.target.value)}
+//                           className="mt-2 w-full p-2 border rounded-lg"
+//                         />
+//                         <button
+//                           onClick={saveEditComment}
+//                           className="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+//                         >
+//                           Save
+//                         </button>
+//                         <button
+//                           onClick={() => setEditingCommentId(null)}
+//                           className="mt-2 ml-2 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
+//                         >
+//                           Cancel
+//                         </button>
+//                       </div>
+//                     ) : (
+//                       <p>{comment.commentText}</p>
+//                     )}
+//                     <div className="flex mt-2 space-x-4">
+//                       <button
+//                         onClick={() =>
+//                           startEditing(comment._id, comment.commentText)
+//                         }
+//                         className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+//                       >
+//                         Edit
+//                       </button>
+//                       <button
+//                         onClick={() => handleDeleteComment(comment._id)}
+//                         className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+//                       >
+//                         Delete
+//                       </button>
+//                     </div>
+//                   </div>
+//                 ))
+//               ) : (
+//                 <p>No comments available.</p>
+//               )}
+//             </div>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Right Section - Video List */}
+//       {/* <div className="lg:w-1/3 flex flex-col text-center w-full p-5 bg-gray-100">
+//         <h3 className="text-lg font-semibold text-gray-900">More Videos</h3>
+
+//         <VideoList videos={videos} />
+
+//       </div> */}
+
+//       <div className="flex flex-col lg:flex-row">
+//         {/* Right Section - Video List */}
+//         <div className="lg:w-1/3 flex flex-col text-center w-full p-5 bg-gray-100">
+//           <h3 className="text-lg font-semibold text-gray-900 mb-4">
+//             More Videos
+//           </h3>
+
+//           {/* Render VideoList with vertical layout */}
+//           <VideoList videos={videos} isVerticalLayout />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default VideoPlayer;

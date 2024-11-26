@@ -18,7 +18,6 @@ export const useFetchDeleteVideo = () => {
       if (!token) {
         throw new Error("Authentication token not found. Please log in again.");
       }
-      console.log(videoId);
       const response = await fetch(
         `http://localhost:4000/api/video/delete/${videoId}`,
         {
